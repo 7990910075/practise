@@ -1,0 +1,93 @@
+Enrollment No.:E19110192000310025
+Name:Hitesh jha
+Subject:php
+Class:T.Y.C.S SEM6
+
+
+Connection page:
+
+<?php
+$server = "localhost";
+$user   = "root";
+$pwd    = "";
+$dbname = "travelinfo";
+$con    = mysqli_connect($server, $user, $pwd, $dbname);
+if ($con) {
+	echo "connected";
+} else {
+	echo "failed";
+}
+
+?>
+
+
+
+Hotel details page:
+
+<?php
+include 'db_con.php';
+$sel    = "select * from hoteldetails";
+$result = mysqli_query($con, $sel);
+//$arr = mysqli_fetch_array($result);
+echo "<table border='1'><tr>";
+echo "<td>Hotel id</td>";
+echo "<td>Hotel Name</td>";
+echo "<td>Address</td>";
+echo "<td>Location</td>";
+echo "<td>Rating</td>";
+echo "<td>Charge</td>";
+echo "<td>No of bed in room</td>";
+while ($res = mysqli_fetch_array($result)) {
+	//	echo "<table border='1'><tr>";
+	echo "<tr><td>".$res['hotelid']."</td>";
+	echo "<td>".$res['hotelname']."</td>";
+	echo "<td>".$res['address']."</td>";
+	echo "<td>".$res['location']."</td>";
+	echo "<td>".$res['rating']."</td>";
+	echo "<td>".$res['charge']."</td>";
+	echo "<td>".$res['no_of_bed']."</td>";
+
+}
+echo "</table>";
+
+//print_r($arr);
+
+?>
+
+
+Login Page:
+
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+</head>
+<body>
+	<form method="post">
+		<label for="cust_id">Customer Id:</label>
+		<input type="text" name="cust_id"><br>
+		<label for="pwd">Password:</label>
+		<input type="Password" name="pwd"><br>
+		<input type="submit" name="login" value="login">
+	</form>
+</body>
+</html>
+
+
+<?php
+include 'db_con.php';
+$cid    = $_POST['cust_id'];
+$pwd    = $_POST['pwd'];
+$select = mysqli_query($con, "select * from tbl_cust where cust_id=".$cid." and password=".$pwd."");
+$res    = mysqli_fetch_array($select);
+if ($cid == $res[0]) {
+	if ($pwd = $res[1]) {
+		echo "Right details provided";
+		//header(Location:'cust_info.php');
+	} else {
+		echo "Wrong details";
+	}
+} else {
+	echo "wrong details";
+}
+?>
